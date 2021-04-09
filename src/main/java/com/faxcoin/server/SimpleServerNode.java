@@ -25,4 +25,8 @@ public class SimpleServerNode implements Node {
         this.printService.printMessage(msg);
 
     }
+
+    public Address getAddress() {
+        return this.address;
+    }
 }

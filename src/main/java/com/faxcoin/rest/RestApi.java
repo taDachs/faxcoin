@@ -16,9 +16,8 @@ public class RestApi {
 
     @PostMapping("/sendMessage")
     public void sendMessage(@RequestParam(value = "content") String content,
-                               @RequestParam(value = "receiver") String receiver,
                                @RequestParam(value = "sender") String sender) {
-        Message msg = new Message(content, new Address(receiver), new Address(sender));
+        Message msg = new Message(content, this.node.getAddress(), new Address(sender));
         node.receiveMessage(msg);
     }
 }
