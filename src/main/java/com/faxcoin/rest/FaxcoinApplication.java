@@ -1,6 +1,7 @@
 package com.faxcoin.rest;
 
 import com.faxcoin.communication.Address;
+import com.faxcoin.print.LinuxPrinter;
 import com.faxcoin.print.TerminalPrinter;
 import com.faxcoin.server.Node;
 import com.faxcoin.server.PrintService;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 public class FaxcoinApplication {
   private static String name;
   private static String printerName;
+  private static boolean useTerminal;
 
   public static void main(String[] args) {
     Options options = new Options();
@@ -25,6 +27,12 @@ public class FaxcoinApplication {
     Option printerNameArg = new Option("p", "printer-name", true, "Your printers name");
     printerNameArg.setRequired(true);
     options.addOption(printerNameArg);
+
+    Option useTerminalPrintArg = new Option("t", "terminal", false, "If set, prints to terminal");
+    useTerminalPrintArg.setRequired(false);
+    options.addOption(useTerminalPrintArg);
+
+
 
     CommandLineParser parser = new DefaultParser();
     HelpFormatter formatter = new HelpFormatter();
@@ -41,13 +49,18 @@ public class FaxcoinApplication {
 
     name = cmd.getOptionValue("name");
     printerName = cmd.getOptionValue("printer-name");
+    useTerminal = cmd.hasOption("terminal");
     SpringApplication.run(FaxcoinApplication.class, args);
   }
 
   @Bean
   public Node getNode() {
-    //PrintService printer = new LinuxPrinter(printerName);
-    PrintService printer = new TerminalPrinter();
+    PrintService printer = null;
+    if (useTerminal) {
+      printer = new TerminalPrinter();
+    } else {
+      printer = new LinuxPrinter(printerName);
+    }
     return new SimpleServerNode(new Address(name), printer);
   }
 }
