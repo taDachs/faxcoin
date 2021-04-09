@@ -7,26 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleServerNode implements Node {
-    private PrintService printService;
-    private Address address;
-    private List<Message> messages;
+  private final PrintService printService;
+  private final Address address;
+  private final List<Message> messages;
 
-    public SimpleServerNode(Address address, PrintService printService) {
-        this.address = address;
-        this.printService = printService;
-        this.messages = new ArrayList<Message>();
-    }
+  public SimpleServerNode(Address address, PrintService printService) {
+    this.address = address;
+    this.printService = printService;
+    this.messages = new ArrayList<Message>();
+  }
 
-    public void sendMessage(Message msg) {
+  public void sendMessage(Message msg) {
 
-    }
+  }
 
-    public void receiveMessage(Message msg) {
-        this.printService.printMessage(msg);
+  public void receiveMessage(Message msg) {
+    this.printService.printMessage(msg);
 
-    }
+  }
 
-    public Address getAddress() {
-        return this.address;
-    }
+  public Address getAddress() {
+    return this.address;
+  }
 }

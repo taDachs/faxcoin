@@ -1,13 +1,13 @@
 package com.faxcoin.communication;
 
 public class Address {
-    private String address;
+  private final String address;
 
-    public Address(String address) {
-        this.address = address;
-    }
+  public Address(String address) {
+    this.address = address;
+  }
 
-    public String toString() {
-        return this.address;
-    }
+  public String toString() {
+    return this.address;
+  }
 }

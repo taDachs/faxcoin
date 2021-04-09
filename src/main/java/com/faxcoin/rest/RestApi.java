@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RestApi {
-    @Autowired
-    Node node;
+  @Autowired
+  Node node;
 
 
-    @PostMapping("/sendMessage")
-    public void sendMessage(@RequestParam(value = "content") String content,
-                               @RequestParam(value = "sender") String sender) {
-        Message msg = new Message(content, this.node.getAddress(), new Address(sender));
-        node.receiveMessage(msg);
-    }
+  @PostMapping("/sendMessage")
+  public void sendMessage(@RequestParam(value = "content") String content,
+                          @RequestParam(value = "sender") String sender) {
+    Message msg = new Message(content, this.node.getAddress(), new Address(sender));
+    node.receiveMessage(msg);
+  }
 }
