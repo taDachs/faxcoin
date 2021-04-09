@@ -65,7 +65,7 @@ public class FaxcoinApplication {
 
   @Bean
   public Node getNode() {
-    PrintService printer = null;
+    PrintService printer;
     if (useTerminal) {
       printer = new TerminalPrinter();
     } else {
