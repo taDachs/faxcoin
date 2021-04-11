@@ -13,5 +13,8 @@ java -jar target/faxcoin-0.0.1-SNAPSHOT.jar -n [your name] -p [your printer name
 
 To send a message use
 ```shell
-curl -X POST -F 'content=[your friendly message]' -F 'sender=[your sender]' [address to send to]/sendMessage
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"content":"[Your friendly message]", "receiver":"Message receiver"}' \
+  [address of node]/sendMessage
 ```
