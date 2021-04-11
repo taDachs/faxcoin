@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class HttpRestClient {
-  public void sendMessage(HashMap<String, String> data, String address) {
+  public void post(HashMap<String, String> data, String address) {
     String requestBody = "";
 
     ObjectMapper objectMapper = new ObjectMapper();

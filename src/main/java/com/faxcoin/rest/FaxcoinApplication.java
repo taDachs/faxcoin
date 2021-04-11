@@ -1,12 +1,11 @@
 package com.faxcoin.rest;
 
-import com.faxcoin.communication.Address;
-import com.faxcoin.print.LinuxPrinter;
-import com.faxcoin.print.TerminalPrinter;
-import com.faxcoin.server.Node;
-import com.faxcoin.server.PrintService;
-import com.faxcoin.server.SimpleServerNode;
+import com.faxcoin.communication.messenger.*;
 import java.util.Collections;
+
+import com.faxcoin.server.node.Node;
+import com.faxcoin.server.node.SimpleServerNode;
+import com.faxcoin.server.node.UrlNodeAddress;
 import org.apache.commons.cli.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,27 +14,17 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class FaxcoinApplication {
-  private static String name;
-  private static String printerName;
-  private static boolean useTerminal;
+  private static String nodeAddress;
   private static String port;
 
   public static void main(String[] args) {
     Options options = new Options();
 
-    Option nameArg = new Option("n", "name", true, "Your name");
-    nameArg.setRequired(true);
-    options.addOption(nameArg);
+    Option nodeAddressArg = new Option("a", "address", true, "Address for this node");
+    nodeAddressArg.setRequired(true);
+    options.addOption(nodeAddressArg);
 
-    Option printerNameArg = new Option("p", "printer-name", true, "Your printers name");
-    printerNameArg.setRequired(true);
-    options.addOption(printerNameArg);
-
-    Option useTerminalPrintArg = new Option("t", "terminal", false, "If set, prints to terminal");
-    useTerminalPrintArg.setRequired(false);
-    options.addOption(useTerminalPrintArg);
-
-    Option portArg = new Option("port", true, "Port for the app to run on");
+    Option portArg = new Option("p", "port", true, "Port for the app to run on");
     portArg.setRequired(false);
     options.addOption(portArg);
 
@@ -53,9 +42,7 @@ public class FaxcoinApplication {
       System.exit(1);
     }
 
-    name = cmd.getOptionValue("name");
-    printerName = cmd.getOptionValue("printer-name");
-    useTerminal = cmd.hasOption("terminal");
+    nodeAddress = cmd.getOptionValue("address");
     port = cmd.getOptionValue("port", "8080");
 
     SpringApplication app = new SpringApplication(FaxcoinApplication.class);
@@ -65,12 +52,9 @@ public class FaxcoinApplication {
 
   @Bean
   public Node getNode() {
-    PrintService printer;
-    if (useTerminal) {
-      printer = new TerminalPrinter();
-    } else {
-      printer = new LinuxPrinter(printerName);
-    }
-    return new SimpleServerNode(new Address("", name), printer);
+    Node node = new SimpleServerNode(new UrlNodeAddress(nodeAddress), new PersistentMessengerFactory());
+    node.registerMessenger(new NamedMessengerAddress(port));
+
+    return node;
   }
 }

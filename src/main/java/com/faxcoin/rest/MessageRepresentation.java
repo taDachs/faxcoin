@@ -1,14 +1,28 @@
 package com.faxcoin.rest;
 
-public class MessageRepresentation {
-  private final String content;
-  private final String sender;
-  private final String receiver;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-  public MessageRepresentation(String content, String sender, String receiver) {
+public class MessageRepresentation {
+  @JsonProperty("content")
+  private String content;
+
+  @JsonProperty("sender")
+  private String sender;
+
+  @JsonProperty("receiver")
+  private String receiver;
+
+  @JsonProperty("id")
+  private String id;
+
+  public MessageRepresentation() {
+  }
+
+  public MessageRepresentation(String content, String sender, String receiver, String id) {
     this.content = content;
     this.sender = sender;
     this.receiver = receiver;
+    this.id = id;
   }
 
   public String getContent() {
@@ -21,5 +35,9 @@ public class MessageRepresentation {
 
   public String getReceiver() {
     return this.receiver;
+  }
+
+  public String getId() {
+    return this.id;
   }
 }
