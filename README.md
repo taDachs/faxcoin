@@ -2,11 +2,12 @@
 Messenger for people with taste.
 
 # Usage
-Just run 
+Build the jar:
 ```shell
 mvn package
 ```
-to build the jar and 
+
+Run the node:
 ```shell
 java -jar target/faxcoin-0.0.1-SNAPSHOT.jar -a [address to run on]:[port to run on] -p [port to run on]
 ```
