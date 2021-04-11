@@ -6,12 +6,12 @@ import com.faxcoin.print.TerminalPrinter;
 import com.faxcoin.server.Node;
 import com.faxcoin.server.PrintService;
 import com.faxcoin.server.SimpleServerNode;
+import java.util.Collections;
 import org.apache.commons.cli.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Collections;
 
 @SpringBootApplication
 public class FaxcoinApplication {
@@ -71,6 +71,6 @@ public class FaxcoinApplication {
     } else {
       printer = new LinuxPrinter(printerName);
     }
-    return new SimpleServerNode(new Address(name), printer);
+    return new SimpleServerNode(new Address("", name), printer);
   }
 }
