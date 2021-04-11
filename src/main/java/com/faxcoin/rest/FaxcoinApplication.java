@@ -53,7 +53,6 @@ public class FaxcoinApplication {
   @Bean
   public Node getNode() {
     Node node = new SimpleServerNode(new UrlNodeAddress(nodeAddress), new PersistentMessengerFactory());
-    node.registerMessenger(new NamedMessengerAddress(port));
 
     return node;
   }
