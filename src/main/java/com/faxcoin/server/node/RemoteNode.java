@@ -3,7 +3,7 @@ package com.faxcoin.server.node;
 import com.faxcoin.communication.Message;
 import com.faxcoin.communication.messenger.MessengerAddress;
 import com.faxcoin.server.HttpRestClient;
-
+import com.faxcoin.server.node.exceptions.InvalidSignatureException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -16,22 +16,21 @@ public class RemoteNode implements Node {
   }
 
   @Override
-  public void sendMessage(Message msg) {
-    HashMap<String, String> data = new HashMap<>();
-    data.put("sender", msg.getSender().toString());
-    data.put("receiver", msg.getReceiver().toString());
-    data.put("content", msg.getContent());
-
-    String address = String.format("%s/sendMessage", this.address.getUrlAsString());
-    this.client.post(data, address);
+  public void sendMessage(Message msg) throws InvalidSignatureException {
+    throw new UnsupportedOperationException("Remote Nodes are not able to send messages");
   }
 
   @Override
-  public void receiveMessage(Message msg) {
+  public void receiveMessage(Message msg) throws InvalidSignatureException {
+    if (!msg.isValid()) {
+      throw new InvalidSignatureException();
+    }
+
     HashMap<String, String> data = new HashMap<>();
     data.put("id", msg.getId().toString());
     data.put("sender", msg.getSender().toString());
     data.put("receiver", msg.getReceiver().toString());
+    data.put("signing", msg.getSigning());
     data.put("content", msg.getContent());
 
     String address = String.format("%s/receiveMessage", this.address.getUrlAsString());
@@ -45,7 +44,8 @@ public class RemoteNode implements Node {
 
   @Override
   public Collection<Node> getNeighbours() {
-    return null;
+    throw new UnsupportedOperationException("Remote Nodes"
+            + " are not able to be asked whether they have any neighbours or not");
   }
 
   @Override
@@ -59,11 +59,14 @@ public class RemoteNode implements Node {
 
   @Override
   public void registerMessenger(MessengerAddress messenger) {
+    throw new UnsupportedOperationException("Remote Nodes"
+            + " are not able to register Messengers properly");
   }
 
   @Override
   public List<Message> getMessageQueue(MessengerAddress address) {
-    return null;
+    throw new UnsupportedOperationException("Remote Nodes"
+            + " are not able to give any meaningful messageQueue");
   }
 
   @Override

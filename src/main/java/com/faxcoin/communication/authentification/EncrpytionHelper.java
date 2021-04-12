@@ -21,9 +21,9 @@ public class EncrpytionHelper {
       publicSignature.update(msg.getContent().getBytes(StandardCharsets.UTF_8));
       byte[] signatureBytes = Base64.getDecoder().decode(msg.getSigning());
       return publicSignature.verify(signatureBytes);
-    } catch (NoSuchAlgorithmException | InvalidKeySpecException | SignatureException | InvalidKeyException e) {
+    } catch (NoSuchAlgorithmException | InvalidKeySpecException | SignatureException | InvalidKeyException | NullPointerException e) {
       e.printStackTrace();
     }
     return false;
   }
-  }
+}

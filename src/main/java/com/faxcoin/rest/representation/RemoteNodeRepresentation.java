@@ -1,4 +1,4 @@
-package com.faxcoin.rest;
+package com.faxcoin.rest.representation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
