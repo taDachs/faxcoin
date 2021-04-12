@@ -71,6 +71,17 @@ public class RestApi {
     this.node.registerMessenger(address);
   }
 
+  @PostMapping(value = "/addToGroup", consumes = "application/json")
+  public void addToGroup(@RequestBody String body) throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    GroupRegisterRepresentation params = mapper.readValue(body, GroupRegisterRepresentation.class);
+
+    MessengerAddress groupAddress = new NamedMessengerAddress(params.getGroupAddress());
+    MessengerAddress messengerAddress = new NamedMessengerAddress(params.getMessengerAddress());
+    System.out.println(body);
+    this.node.addToGroup(groupAddress, messengerAddress);
+  }
+
   @GetMapping(value = "/getMessageQueue", consumes = "application/json", produces = "application/json")
   public List<MessageRepresentation> getMessageQueue(@RequestBody String body) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();

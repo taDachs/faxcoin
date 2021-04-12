@@ -4,6 +4,7 @@ import com.faxcoin.communication.Message;
 import com.faxcoin.communication.messenger.MessengerAddress;
 import com.faxcoin.server.HttpRestClient;
 
+import javax.naming.ldap.UnsolicitedNotification;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +65,11 @@ public class RemoteNode implements Node {
   @Override
   public List<Message> getMessageQueue(MessengerAddress address) {
     return null;
+  }
+
+  @Override
+  public void addToGroup(MessengerAddress group, MessengerAddress messengerAddress) {
+    throw new UnsupportedOperationException();
   }
 
   @Override

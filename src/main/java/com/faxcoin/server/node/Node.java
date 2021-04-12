@@ -14,5 +14,6 @@ public interface Node {
   void registerNeighbour(NodeAddress node);
   void registerMessenger(MessengerAddress messenger);
   List<Message> getMessageQueue(MessengerAddress address);
+  void addToGroup(MessengerAddress group, MessengerAddress messengerAddress);
 }
 

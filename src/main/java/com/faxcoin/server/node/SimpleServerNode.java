@@ -1,5 +1,6 @@
 package com.faxcoin.server.node;
 
+import com.faxcoin.communication.Group;
 import com.faxcoin.communication.messenger.MessengerAddress;
 import com.faxcoin.communication.Message;
 import com.faxcoin.communication.messenger.Messenger;
@@ -11,9 +12,10 @@ public class SimpleServerNode implements Node {
   private static final int MAX_HISTORY_SIZE = 500;
   private final Collection<Node> neighbours = new LinkedList<>();
   private final Collection<Messenger> messengers = new LinkedList<>();
-  private MessengerFactory messengerFactory;
-  private List<Message> messageHistory = new LinkedList<>();
-  private NodeAddress address;
+  private final Collection<Group> groups = new LinkedList<>();
+  private final MessengerFactory messengerFactory;
+  private final List<Message> messageHistory = new LinkedList<>();
+  private final NodeAddress address;
 
   public SimpleServerNode(NodeAddress address, MessengerFactory messengerFactory) {
     this.address = address;
@@ -40,6 +42,14 @@ public class SimpleServerNode implements Node {
     for (Messenger messenger : this.messengers) {
       if (messenger.getAddress().equals(receiver)) {
         messenger.addMessage(msg);
+        return;
+      }
+    }
+
+    System.out.println(this.groups.size());
+    for (Group group : this.groups) {
+      if (group.getAddress().equals(receiver)) {
+        group.receiveMessage(msg);
         return;
       }
     }
@@ -91,4 +101,41 @@ public class SimpleServerNode implements Node {
     }
     return new LinkedList<>();
   }
+
+  @Override
+  public void addToGroup(MessengerAddress groupAddress, MessengerAddress messengerAddress) {
+    this.registerMessenger(messengerAddress);
+    Messenger messenger = this.getMessenger(messengerAddress);
+
+    Group group = new Group(groupAddress);
+    if (this.groups.contains(group)) {
+      group = this.getGroup(groupAddress);
+      group.addMember(messenger);
+      return;
+    }
+
+    group.addMember(messenger);
+    this.groups.add(group);
+  }
+
+  private Group getGroup(MessengerAddress groupAddress) {
+    for (Group group : this.groups) {
+      if (group.getAddress().equals(groupAddress)) {
+        return group;
+      }
+    }
+
+    return null;
+  }
+
+  private Messenger getMessenger(MessengerAddress address) {
+    for (Messenger messenger : this.messengers) {
+      if (messenger.getAddress().equals(address)) {
+        return messenger;
+      }
+    }
+
+    return null;
+  }
+
 }
