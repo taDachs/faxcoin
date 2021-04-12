@@ -46,7 +46,6 @@ public class SimpleServerNode implements Node {
       }
     }
 
-    System.out.println(this.groups.size());
     for (Group group : this.groups) {
       if (group.getAddress().equals(receiver)) {
         group.receiveMessage(msg);

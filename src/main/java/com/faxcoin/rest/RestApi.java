@@ -78,7 +78,6 @@ public class RestApi {
 
     MessengerAddress groupAddress = new NamedMessengerAddress(params.getGroupAddress());
     MessengerAddress messengerAddress = new NamedMessengerAddress(params.getMessengerAddress());
-    System.out.println(body);
     this.node.addToGroup(groupAddress, messengerAddress);
   }
 

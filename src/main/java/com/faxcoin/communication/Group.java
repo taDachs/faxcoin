@@ -21,8 +21,6 @@ public class Group {
   public void receiveMessage(Message msg) {
     for (Messenger member : this.members) {
       member.addMessage(msg);
-      System.out.println(msg.toString());
-      System.out.println(member.getAddress().getAddress());
     }
   }
 
