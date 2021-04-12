@@ -34,6 +34,7 @@ public class RestApi {
         params.getContent(),
         new NamedMessengerAddress(params.getReceiver()),
         new NamedMessengerAddress(params.getSender()),
+        params.getSigning(),
         UUID.fromString(params.getId())
     );
     this.node.receiveMessage(msg);
@@ -46,7 +47,8 @@ public class RestApi {
     Message msg = new Message(
         params.getContent(),
         new NamedMessengerAddress(params.getReceiver()),
-        new NamedMessengerAddress(params.getSender())
+        new NamedMessengerAddress(params.getSender()),
+        params.getSigning()
     );
     this.node.sendMessage(msg);
   }
@@ -85,6 +87,7 @@ public class RestApi {
               msg.getContent(),
               msg.getSender().getAddress(),
               msg.getReceiver().getAddress(),
+              msg.getSigning(),
               msg.getId().toString()
           )
       );

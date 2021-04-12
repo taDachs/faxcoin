@@ -4,7 +4,6 @@ import com.faxcoin.communication.messenger.MessengerAddress;
 import com.faxcoin.communication.Message;
 import com.faxcoin.communication.messenger.Messenger;
 import com.faxcoin.communication.messenger.MessengerFactory;
-import com.faxcoin.server.HttpRestClient;
 
 import java.util.*;
 
@@ -12,7 +11,6 @@ public class SimpleServerNode implements Node {
   private static final int MAX_HISTORY_SIZE = 500;
   private final Collection<Node> neighbours = new LinkedList<>();
   private final Collection<Messenger> messengers = new LinkedList<>();
-  private HttpRestClient client = new HttpRestClient();
   private MessengerFactory messengerFactory;
   private List<Message> messageHistory = new LinkedList<>();
   private NodeAddress address;

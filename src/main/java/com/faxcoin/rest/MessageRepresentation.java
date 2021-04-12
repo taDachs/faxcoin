@@ -15,13 +15,17 @@ public class MessageRepresentation {
   @JsonProperty("id")
   private String id;
 
+  @JsonProperty("signing")
+  private String signing;
+
   public MessageRepresentation() {
   }
 
-  public MessageRepresentation(String content, String sender, String receiver, String id) {
+  public MessageRepresentation(String content, String sender, String receiver, String signing, String id) {
     this.content = content;
     this.sender = sender;
     this.receiver = receiver;
+    this.signing = signing;
     this.id = id;
   }
 
@@ -40,4 +44,8 @@ public class MessageRepresentation {
   public String getId() {
     return this.id;
   }
-}
+
+  public String getSigning() {
+    return this.signing;
+  }
+  }
