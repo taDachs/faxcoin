@@ -5,6 +5,7 @@ import com.faxcoin.communication.messenger.MessengerAddress;
 import com.faxcoin.communication.Message;
 import com.faxcoin.communication.messenger.Messenger;
 import com.faxcoin.communication.messenger.MessengerFactory;
+import com.faxcoin.server.node.exceptions.InvalidSignatureException;
 
 import java.util.*;
 
@@ -23,12 +24,20 @@ public class SimpleServerNode implements Node {
   }
 
   @Override
-  public void sendMessage(Message msg) {
+  public void sendMessage(Message msg) throws InvalidSignatureException {
+    if (!msg.isValid()) {
+      throw new InvalidSignatureException();
+    }
+
     this.receiveMessage(msg);
   }
 
   @Override
-  public void receiveMessage(Message msg) {
+  public void receiveMessage(Message msg) throws InvalidSignatureException {
+    if (!msg.isValid()) {
+      throw new InvalidSignatureException();
+    }
+
     if (this.messageHistory.contains(msg)) {
       return;
     }
@@ -61,7 +70,7 @@ public class SimpleServerNode implements Node {
     return this.address;
   }
 
-  private void sendMessageToNeighbours(Message msg) {
+  private void sendMessageToNeighbours(Message msg) throws InvalidSignatureException {
     for (Node neighbour : this.neighbours) {
       neighbour.receiveMessage(msg);
     }
