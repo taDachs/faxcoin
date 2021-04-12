@@ -3,7 +3,10 @@ package com.faxcoin.server.node;
 import com.faxcoin.communication.Message;
 import com.faxcoin.communication.messenger.MessengerAddress;
 import com.faxcoin.server.HttpRestClient;
+<<<<<<< HEAD:node/src/main/java/com/faxcoin/server/node/RemoteNode.java
 
+=======
+>>>>>>> Initial Commit... :(:src/main/java/com/faxcoin/server/node/RemoteNode.java
 import com.faxcoin.server.node.exceptions.InvalidSignatureException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -68,11 +71,14 @@ public class RemoteNode implements Node {
   public List<Message> getMessageQueue(MessengerAddress address) {
     throw new UnsupportedOperationException("Remote Nodes"
             + " are not able to give any meaningful messageQueue");
+<<<<<<< HEAD:node/src/main/java/com/faxcoin/server/node/RemoteNode.java
   }
 
   @Override
   public void addToGroup(MessengerAddress group, MessengerAddress messengerAddress) {
     throw new UnsupportedOperationException();
+=======
+>>>>>>> Initial Commit... :(:src/main/java/com/faxcoin/server/node/RemoteNode.java
   }
 
   @Override
