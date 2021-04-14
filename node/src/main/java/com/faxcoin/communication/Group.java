@@ -20,7 +20,9 @@ public class Group {
 
   public void receiveMessage(Message msg) {
     for (Messenger member : this.members) {
-      member.addMessage(msg);
+      if (!msg.getSender().equals(member.getAddress())) {
+        member.addMessage(msg);
+      }
     }
   }
 

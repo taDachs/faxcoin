@@ -4,7 +4,8 @@ from messenger.message import Message
 
 
 class Chat(ABC):
-    _messages: list = []
+    def __init__(self):
+        self._messages: list = []
 
     def add_message(self, msg: Message):
         self._messages.append(msg)

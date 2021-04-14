@@ -27,7 +27,8 @@ class Messenger:
             signature=self._signator.get_signature_for_content(content)
         )
 
-        self._get_or_create_chat(msg)
+        chat = self._get_or_create_chat(msg)
+        chat.add_message(msg)
         self._node.send_message(msg)
 
     def update_messages(self):
