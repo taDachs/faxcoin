@@ -1,4 +1,7 @@
 # faxcoin
+
+![](https://travis-ci.com/taDachs/faxcoin.svg?branch=main)
+
 Messenger for people with taste.
 
 # Usage
