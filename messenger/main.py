@@ -50,7 +50,7 @@ def main():
     print(term.clear)
     while True:
         with term.cbreak():
-            key = term.inkey(0.3)
+            key = term.inkey(0.1)
             if not key.is_sequence:
                 if len(key) != 0:
                     text_box.add_char(key)

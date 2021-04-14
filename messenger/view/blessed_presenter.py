@@ -6,9 +6,6 @@ from view.message_view import MessageView
 
 class BlessedPresenter:
     _term = blessed.Terminal()
-    _CHAT_WIDTH = _term.width
-    _MESSAGE_HEIGHT = 5
-    _CHAT_HEIGHT = _term.height - _MESSAGE_HEIGHT - 2
     _colors = [_term.deeppink, _term.red, _term.blue, _term.brown]
 
     _line_color = _term.on_yellow
@@ -16,11 +13,18 @@ class BlessedPresenter:
     def __init__(self, message_box: MessageView, chat: ChatView):
         self._message_box = message_box
         self._chat = chat
+        self._update()
+
+    def _update(self):
+        self._CHAT_WIDTH = self._term.width
+        self._MESSAGE_HEIGHT = 5
+        self._CHAT_HEIGHT = self._term.height - self._MESSAGE_HEIGHT - 2
 
     def set_chat(self, chat: ChatView):
         self._chat = chat
 
     def draw(self):
+        self._update()
         self._draw_chat()
         self._vline(self._term.height - self._MESSAGE_HEIGHT - 1)
         self._draw_message_box()
@@ -31,7 +35,6 @@ class BlessedPresenter:
 
     def _hline(self, col):
         pass
-
 
     def _draw_chat(self):
         print(self._term.clear)
