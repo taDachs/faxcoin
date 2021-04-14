@@ -68,14 +68,11 @@ public class RemoteNode implements Node {
   public List<Message> getMessageQueue(MessengerAddress address) {
     throw new UnsupportedOperationException("Remote Nodes"
             + " are not able to give any meaningful messageQueue");
-<<<<<<< HEAD
   }
 
   @Override
   public void addToGroup(MessengerAddress group, MessengerAddress messengerAddress) {
     throw new UnsupportedOperationException();
-=======
->>>>>>> a051b11aadfcd99ea4044b8301d6554938cfeaf2
   }
 
   @Override
