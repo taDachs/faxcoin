@@ -7,18 +7,19 @@ from messenger.messenger import Messenger
 from messenger.signator import Signator
 from messenger.text_box import TextBox
 from rest.node import Node
+from view.blessed_presenter import BlessedPresenter
 from view.chat_view import ChatView
 
 import blessed
 
+from view.message_view import MessageView
+
 term = blessed.Terminal()
 
-colors = {
-    'pink': term.deeppink,
-    'red': term.red,
-    'green': term.blue,
-    'brown': term.brown
-}
+colors = [term.deeppink, term.red, term.blue, term.brown]
+
+CHAT_WIDTH = term.width
+CHAT_HEIGHT = term.height - 4
 
 
 def main():
@@ -40,8 +41,11 @@ def main():
         address_book = None
 
     messenger = Messenger(signator, node, address_book)
-    view = ChatView(messenger, 'test')
+    chat_view = ChatView(messenger, 'test')
     text_box = TextBox()
+    message_view = MessageView(text_box)
+
+    presenter = BlessedPresenter(message_view, chat_view)
 
     print(term.clear)
     while True:
@@ -51,44 +55,25 @@ def main():
                 if len(key) != 0:
                     text_box.add_char(key)
             elif key.name == 'KEY_ENTER':
-                message_content = text_box.get_buffer()
-                text_box.clear_buffer()
-                messenger.send_message('test', message_content)
+                if len(text_box.get_buffer()) != 0:
+                    message_content = text_box.get_buffer()
+                    text_box.clear_buffer()
+                    messenger.send_message('test', message_content)
             elif key.name == 'KEY_BACKSPACE':
                 text_box.delete_character()
             elif key.name == 'KEY_LEFT':
                 text_box.move_cursor_left()
             elif key.name == 'KEY_RIGHT':
                 text_box.move_cursor_right()
+            elif key.name == 'KEY_UP':
+                chat_view.increase_shift()
+            elif key.name == 'KEY_DOWN':
+                chat_view.decrease_shift()
             elif key.name == 'KEY_ESCAPE':
                 break
 
         messenger.update_messages()
-        view.update_view(term.height - 4, term.width - 1)
-        if view.has_updated():
-            print(term.clear)
-            chat_buffer = view.get_buffer()
-            lines = []
-
-            for line in chat_buffer:
-                text = ''
-                for segment in line.get_segments():
-                    color = line.get_segment_color(segment)
-                    if color in colors:
-                        text += colors[color]
-                    text += segment
-                    text += term.normal
-                lines.append(text)
-
-            print('\n'.join(lines))
-
-        buffer = text_box.get_buffer()
-
-        print(term.move_xy(0, term.height - 2) + term.blue_bold('Send Message: ') + term.clear_eol + buffer)
-        print(
-            term.move_xy(text_box.get_cursor_position() + len('Send Message: '), term.height - 2)
-            + term.on_darkolivegreen(text_box.get_character_under_cursor())
-        )
+        presenter.draw()
 
     # address_book.save(address_file)
     sys.exit(0)

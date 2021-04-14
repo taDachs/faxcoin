@@ -1,6 +1,8 @@
 class TextBox:
-    _buffer = []
     _cursor = 0
+
+    def __init__(self):
+        self._buffer = []
 
     def add_char(self, character: str):
         self._buffer.insert(self._cursor, character)
